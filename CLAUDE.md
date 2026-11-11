@@ -246,13 +246,15 @@ If the script was successfully used, append as comments how, and what the outcom
 ## Project Context
 
 ### What we're building:
-A browser word-guessing game whose answers are computer-science terms (ARRAY, STACK, QUEUE, CACHE, TOKEN…). You guess the word and each letter is colored to show how close it is. It is built with Vue single-file components using scoped CSS and hosted free as a static site on GitHub Pages. This repo holds both the game (`src/`) and the record of why it is built the way it is (`docs/adr/`). It is Prothit's first deliberatively-built project.
+A browser word-guessing game for friends: guess an everyday five-letter English word, with colored feedback on each letter. There is one shared puzzle per day, then random words for fun, under an original name and look. (The founding brief's computer-science answers were dropped for accessibility; see ADR-0001.) It is built with Vue single-file components using scoped CSS and hosted free as a static site on GitHub Pages. This repo holds both the game (`src/`) and the record of why it is built the way it is (`docs/adr/`). It is Prothit's first deliberatively-built project.
 
 ### Current focus:
-Settling three decisions before any code is written: which words count (ADR-0001), how play is paced (ADR-0002), and the build/test/deploy stack (ADR-0003).
+Before scaffolding, closing the follow-up questions: QST-ANSWER-SOURCE (ADR-0001), QST-RANDOM-UNLOCK (ADR-0002), and QST-GAME-NAME (ADR-0003, which also decides the repo name and URL).
 
 ### Key decisions made:
-*(List ADRs here as they land, e.g. `- Auth approach — see docs/adr/0001-*.md`. Empty at birth is healthy.)*
+- Words: five-letter everyday English, no CS terms; answer source still open. See `docs/adr/0001-*.md`
+- Cadence: daily shared puzzle first, then random words for fun. See `docs/adr/0002-*.md`
+- Stack: Vite + Vue 3 + TypeScript + Vitest, deployed to GitHub Pages as a project site next to the existing user site. See `docs/adr/0003-*.md`
 
 ### Open questions:
 ```bash

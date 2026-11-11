@@ -9,7 +9,7 @@ adr teaching map: the example is not the teaching — these are the up-links fro
 # Which words count: answers and valid guesses
 
 - **Date**: 2026-11-11
-- **Iteration**: 1
+- **Iteration**: 2
 - **Status**: Draft
 - **Deciders**: Prothit (human), Tessera 5.5 (AI)
 
@@ -48,7 +48,7 @@ adr teaching map: the example is not the teaching — these are the up-links fro
 ## Questions
 
 ### QST-GUESS-POOL: Which words can be answers, and which words does the game accept as guesses?
-- Status: unanswered
+- Status: answered
 - Why asking: This decides what data the game ships (one curated list, or a curated list plus a dictionary), how many tiles wide the board is, and what happens when a player types a word we don't know. The answers are meant to be computer-science terms (ARRAY, STACK, QUEUE, CACHE, TOKEN…). The open question is how far that theme extends into what players may *guess*, and whether words must be five letters.
 - Need: pick a letter (or override — any shape answers)
 
@@ -63,28 +63,61 @@ Options:
 **B — CS answers, broad guesses, five letters.** *Rationale*: All five of your examples are five letters, and there are plenty of five-letter CS terms to run daily for months: ARRAY, STACK, QUEUE, CACHE, TOKEN, GRAPH, MUTEX, TUPLE, REGEX, PROXY, SHARD, NONCE, LEXER, RADIX, and more. I'll draft ~200 candidates for you to prune. With B the theme lives in the answers, where it's a nice surprise, and players who think in everyday English aren't penalized. A's restricted guess pool makes the game shorter and more frustrating rather than more CS-flavored. D is a real thematic improvement but roughly triples what the first build has to handle. It can come later as a separate mode once the five-letter engine is tested. *Confidence*: 0.75 — because the trade-off is about how the game feels to play, which I'm reasoning about rather than having playtested, and B's bundle-size cost is my estimate from list length, not a measurement. *If wrong*: if playtesting shows people mostly guess CS words anyway, the English list is dead weight → **A**. If the five-letter limit cuts out the terms that make the game feel like *yours* (POINTER, LAMBDA, BINARY…) → **D**.
 
 **ANS:** (by Prothit)
+5 letter English Word. Do not do CS specific words as I want it to be accessible to my friends! <!-- literal placeholder — parser-significant, do not paraphrase -->
+
+---
+
+### QST-ANSWER-SOURCE: Where should the list of everyday five-letter answers come from?
+- Status: unanswered
+- Why asking: QST-GUESS-POOL settled that answers are ordinary five-letter English words, so friends without a CS background can play. The game needs two lists. One is a short list of *common* words that can be the answer, so nobody loses to `XYSTI`. The other is a long list of every real five-letter word, so guesses aren't rejected unfairly. Where the answer list comes from decides how much pruning you'll do, what license note the repo carries, and whether the game's content is actually ours.
+- Need: pick a letter (or override — any shape answers)
+
+Options:
+- **A — Build our own from SCOWL**: SCOWL is a long-standing, permissively licensed English word list that ranks words by how common they are. Guesses: every five-letter word up to a broad commonness level (roughly 8–10k words). Answers: only the most common level (estimated ~2,000 words, over five years of daily puzzles). I filter out plurals, proper nouns, and anything offensive, and you skim the final list for words your friends wouldn't know. The source and its license are recorded in the repo.
+- **B — Adopt an existing open-source list**: Use a five-letter "common words" list someone has already published on GitHub under a permissive license. Faster, but quality and origin vary, and many such lists are actually copies of the original game's list (option C) with a new license slapped on.
+- **C — Reuse the original game's answer list**: It circulates widely online and is well curated. But it is the New York Times' curated content, so using it undercuts the "own name, own look" choice in ADR-0003 (QST-PUBLIC-NAME) and carries the same takedown risk.
+
+**Recommendation**: (by Tessera 5.5, Claude Opus 5.5, 2026-11-11)
+
+**A — Build our own from SCOWL.** *Rationale*: QST-PUBLIC-NAME chose an original identity, and the answer list is the game's main content, so it should be ours too. SCOWL's commonness levels map directly onto the two lists we need. "Common enough to be an answer" becomes a threshold we can tune, not a judgment made 2,000 times. ~2,000 answers also outlasts any realistic run of daily puzzles plus random play (ADR-0002). *Confidence*: 0.8 — because I know SCOWL's design and license terms from its documentation, but I haven't downloaded it yet, and the ~2,000 and 8–10k counts are estimates I'll measure before committing to them. *If wrong*: if the most-common level turns out too small or too stuffy once measured, I widen the threshold and you skim more, still A. If its license terms turn out not to fit a public site → **B**, with a provenance check before adopting any list.
+
+**ANS:** (by Prothit)
 [Fill this in]   <!-- literal placeholder — parser-significant, do not paraphrase -->
 
 ---
 
 ## Decision
 
-*Pending QST-GUESS-POOL.*
+### Context
+
+What length are the words, which can be the answer, and what counts as a valid guess. The founding brief asked for computer-science answers (ARRAY, STACK…).
+
+### Chosen: Five-letter everyday English words (Prothit's override of B, 2026-11-11)
+
+**Rationale**: Prothit's ANS: *"5 letter English Word. Do not do CS specific words as I want it to be accessible to my friends!"* The audience is friends, not CS students, so being playable matters more than the theme. I recommended B to keep the CS twist in the answers. The override keeps B's shape (two lists: a short answer list and a broad guess list) and swaps CS terms for everyday English.
+
+**Trade-offs accepted**: The CS twist from the founding brief is gone. The game's identity now comes from its name and look (ADR-0003, QST-PUBLIC-NAME) and its daily-then-random flow (ADR-0002), not from its vocabulary.
+
+### Consequences
+- Two word lists ship in the bundle: common answers and broad valid guesses. Where they come from is QST-ANSWER-SOURCE.
+- The board is fixed at five tiles wide, so there's no variable-length layout.
+- Duplicate-letter scoring is still the first thing the tests pin down (Explicitation item 3).
 
 ---
 
 ## Open Follow-ups
 
-- [ ] **How to curate answers** (decided when the draft list goes to Prothit; doesn't block the question above): are language keywords and abbreviations fair answers (`ASYNC`, `CONST`, `DEQUE`, `CHMOD`)? My lean: allow words a CS sophomore would *say out loud* in class. Exclude pure abbreviations and proper nouns (`LINUX`, `MYSQL`).
-- [ ] **Plurals as answers** (`BYTES`, `NODES`): my lean is no. They're cheap filler and make the list feel padded.
-- [ ] **Duplicate-letter scoring** gets tests before the board is built (Fourth and Fifth Directives): `ATTIC`/`STACK`, and `QUEUE` as an answer.
+- [x] ~~**How to curate CS answers**~~: moot. QST-GUESS-POOL dropped CS terms.
+- [ ] **Plurals as answers** (`BOOKS`, `CARDS`): my lean is still no. They're cheap filler, and players feel cheated when the answer is just a pluralized four-letter word. They stay valid as *guesses*.
+- [ ] **CS words as an optional pack later?** Prothit dropped them for accessibility, not because they were unwanted. A themed bonus pack in random mode could bring them back without affecting the daily puzzle. Parked; raise only if Prothit brings it up.
+- [ ] **Duplicate-letter scoring** gets tests before the board is built (Fourth and Fifth Directives): guess `ATTIC` against `STACK`, and answers with repeated letters such as `SPEED` and `LLAMA`.
 
 ---
 
 ## Action Items
 
-- [ ] Draft ~200 candidate answers, matching whichever length is chosen, for Prothit to prune — Owner: Tessera 5.5 (after QST-GUESS-POOL is answered)
-- [ ] If B or D: choose the English guess list and record its license in the repo — Owner: Tessera 5.5
+- [ ] Once QST-ANSWER-SOURCE is answered: generate both lists, measure their sizes, and give Prothit the answer list to skim — Owner: Tessera 5.5
+- [ ] Record the word-list source and its license in the repo — Owner: Tessera 5.5
 
 ---
 
@@ -95,6 +128,12 @@ Options:
 - Contributors: Tessera 5.5 (Claude Opus 5.5)
 - Changes: Initial draft: one question (QST-GUESS-POOL) with four options and a recommendation; curation follow-ups noted
 - Outcome: Draft
+
+### Iteration 2 (2026-11-11)
+- Trigger: Prothit answered QST-GUESS-POOL (via the ADR Manager panel)
+- Contributors: Prothit (decision), Tessera 5.5 (Claude Opus 5.5; recording and follow-up)
+- Changes: Recorded the override (five-letter everyday English, no CS words) in Decision; marked the CS curation follow-up moot; minted QST-ANSWER-SOURCE, since common-word answers need a source; added a parked note about an optional CS pack
+- Outcome: Draft (stays Draft until QST-ANSWER-SOURCE is answered)
 
 ---
 
