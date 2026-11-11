@@ -1,19 +1,9 @@
 # CLAUDE.md - Project Guidance
 
-> **Instantiating this template?** Placeholders look like ⟦THIS⟧ — fill-and-delete
-> each one (grep-proof on purpose; `just instantiate-check` reports which remain
-> and passes only when none do). Square-bracket text elsewhere is either a
-> per-document mold slot (filled at each mint, not at birth) or the frozen
-> dialogue placeholder `[Fill this in]` — never convert those. *(This note is
-> visible text, not an HTML comment, because the harness strips block comments
-> from the CLAUDE.md it serves at session start — a cold instantiator proved the
-> instructions were sitting exactly where their audience could not see them.
-> Delete this block when instantiation is done.)*
-
-- **Project**: ⟦PROJECT-NAME⟧
-- **Human**: ⟦HUMANS⟧
-- **AI**: ⟦AI-SEATS⟧ <!-- with the crew layer, the roster lives in docs/inbox/agent-sessions.json; name the coordinator seat here -->
-- **Last Updated**: ⟦LAST-UPDATED⟧
+- **Project**: wordle-with-records (repo name; the game's public name is still open: ADR-0003's QST-PUBLIC-NAME)
+- **Human**: Prothit
+- **AI**: Tessera 5.5 (Claude Opus 5.5), the coordinator and currently the only seat. The roster lives in `docs/inbox/agent-sessions.json`.
+- **Last Updated**: 2026-11-11
 
 ---
 
@@ -98,15 +88,15 @@ Tests should:
 **RUN THIS PROJECT'S VERIFICATION GATE BEFORE EVERY COMMIT**
 
 Before serving any change:
-1. Run the project's verification gate: ⟦VERIFICATION-GATE⟧ <!-- test suite, build, linter, or a combination; e.g. `npm test`, `uv run pytest`, `hugo && bin/check` -->
+1. Run the project's verification gate: `just gate`
 2. Fix any failures before committing
 3. Never serve changes with a failing gate
 
-**Why**: ⟦GATE-WHY⟧ <!-- state what this project's gate actually catches — real classes of bug, real numbers if you have them. A directive that names a real gate gets followed; an unfollowable one teaches every seat that directives are decorative, and that lesson generalizes. -->
+**Why**: Right now there is no code, so `just gate` checks only the record: it fails if any template placeholder is unfilled or the crew registry is malformed. Once code lands (stack per ADR-0003), the app's own checks go into the same `gate` recipe: unit tests, type-check, and a production build. The bug class we most expect is in the per-letter scoring. Duplicate letters are the classic case. Guess `ATTIC` against answer `STACK` must color only one `T`. Answer `QUEUE` holds two `U`s and two `E`s. These bugs pass a quick manual playtest and only show up on particular word pairs, which is why they need tests. The build step also catches the GitHub Pages `base` path mistake, where the site deploys but every asset 404s.
 
 **Process**:
 ```bash
-⟦VERIFICATION-GATE⟧            # Must be green before commit
+just gate                      # Must be green before commit
 git add <explicit paths>       # never -A: stage by path, commit by pathspec — see CONVENTIONS.md, shared-worktree awareness
 git commit -m "..." -- <paths>
 ```
@@ -256,10 +246,10 @@ If the script was successfully used, append as comments how, and what the outcom
 ## Project Context
 
 ### What we're building:
-⟦PROJECT-GOAL⟧ <!-- 1-3 sentences; same token as ONBOARDING's — one text serves both -->
+A browser word-guessing game whose answers are computer-science terms (ARRAY, STACK, QUEUE, CACHE, TOKEN…). You guess the word and each letter is colored to show how close it is. It is built with Vue single-file components using scoped CSS and hosted free as a static site on GitHub Pages. This repo holds both the game (`src/`) and the record of why it is built the way it is (`docs/adr/`). It is Prothit's first deliberatively-built project.
 
 ### Current focus:
-⟦CURRENT-FOCUS⟧
+Settling three decisions before any code is written: which words count (ADR-0001), how play is paced (ADR-0002), and the build/test/deploy stack (ADR-0003).
 
 ### Key decisions made:
 *(List ADRs here as they land, e.g. `- Auth approach — see docs/adr/0001-*.md`. Empty at birth is healthy.)*

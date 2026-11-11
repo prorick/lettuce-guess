@@ -1,7 +1,6 @@
 # Crew Onboarding — read this first if you've been recruited
 
-Welcome to **⟦PROJECT-NAME⟧** — ⟦PROJECT-ONE-LINER⟧ <!-- one line: what this
-project is and who the human collaborator(s) are -->.
+Welcome to **wordle-with-records**, a word-guessing game with computer-science answers, built in Vue for GitHub Pages by Prothit (human) with Tessera 5.5 (AI).
 
 This document captures **80% of what every seat needs to know** so per-recruit
 briefs can be short deltas (name, color, mission). Fill the bracketed
@@ -60,8 +59,7 @@ the tmux hive.
 
 ## 1. What this project is
 
-⟦PROJECT-GOAL⟧ <!-- 1-3 sentences: the goal, the repo's role (product repo?
-coordination layer?), where implementation happens; same token as CLAUDE.md's -->
+A browser word-guessing game whose answers are computer-science terms (ARRAY, STACK, QUEUE, CACHE, TOKEN…). You guess the word and each letter is colored to show how close it is. It is built with Vue single-file components using scoped CSS and hosted free as a static site on GitHub Pages. This repo holds both the game (`src/`) and the record of why it is built the way it is (`docs/adr/`). It is Prothit's first deliberatively-built project.
 
 **Read first**, in order:
 1. `CLAUDE.md` — directives, project context, workflow
