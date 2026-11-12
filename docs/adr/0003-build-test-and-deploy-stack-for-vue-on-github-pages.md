@@ -9,8 +9,8 @@ adr teaching map: the example is not the teaching — these are the up-links fro
 # Build, test, and deploy stack for Vue on GitHub Pages
 
 - **Date**: 2026-11-11
-- **Iteration**: 3
-- **Status**: Accepted
+- **Iteration**: 4
+- **Status**: Implemented
 - **Deciders**: Prothit (human), Tessera 5.5 (AI)
 
 **TL;DR**: Pick the toolchain that compiles Vue single-file components with scoped CSS, runs the tests that gate every commit, and publishes the site to GitHub Pages.
@@ -148,8 +148,10 @@ Go with A! I love Lettuce Guess! Make the site aesthetic. lettuce green color fo
 
 ## Action Items
 
-- [ ] Scaffold per the chosen option, set Vite `base` to the repo path, and add the app's checks to the `gate` recipe in `justfile` — Owner: Tessera 5.5 (after QST-STACK)
-- [ ] Turn on GitHub Pages (Settings → Pages → Source: GitHub Actions) — Owner: Prothit (a repo-settings click, which is yours to make)
+- [x] Scaffold per the chosen option, set Vite `base` to the repo path, and add the app's checks to the `gate` recipe in `justfile` — Owner: Tessera 5.5 (done 2026-11-11)
+- [x] Rename the repo `wordle-with-records` → `lettuce-guess` — Owner: Tessera 5.5, per Prothit's "Should be lettuce-guess" (done 2026-11-11 via `gh repo rename`; GitHub redirects the old repo URL)
+- [x] Turn on GitHub Pages (Source: GitHub Actions) — Owner: originally Prothit; done by Tessera 5.5 via `gh api` under Prothit's "Please implement!" (2026-11-11)
+- [ ] Replace or remove the template's `CITATION.cff` and `.zenodo.json`. They still describe the *template*, so GitHub's "Cite this repository" button on this repo cites the methodology, not the game — Owner: Prothit to decide (I'm deliberately not touching them)
 
 ---
 
@@ -172,6 +174,12 @@ Go with A! I love Lettuce Guess! Make the site aesthetic. lettuce green color fo
 - Contributors: Prothit (decision), Tessera 5.5 (Claude Opus 5.5; name check, recording)
 - Changes: Recorded the name, repo, URL, and palette in Decision, with the name-check result and the green/yellow doubt
 - Outcome: Accepted (unchanged)
+
+### Iteration 4 (2026-11-11)
+- Trigger: implementation and first deploy
+- Contributors: Tessera 5.5 (Claude Opus 5.5)
+- Changes: Scaffolded from `create-vue` (Vue 3.5, Vite 8, Vitest 4, TypeScript 6). Every component uses `<style scoped>`; `src/styles/base.css` is the one global sheet (tokens, fonts, light and dark themes), as Explicitation item 4 anticipated. `just gate` = record checks + `vue-tsc` + 39 Vitest tests + production build + a check that assets load under `/lettuce-guess/`. CI runs the same checks. Action versions were pinned to the current majors, verified via the GitHub API rather than from memory: checkout@v7, setup-node@v7, configure-pages@v6, upload-pages-artifact@v5, deploy-pages@v5. Before deploying, I drove the build in headless Chrome and checked every screen in both themes by eye (`scripts/ephemeral/2026-11-11-screenshot-lettuce-guess.mjs`). The first deploy went green, and the live site was verified: page, JS, CSS, favicon, and license all return 200, a full game plays through in Chrome, and the user site at the root is untouched.
+- Outcome: Accepted → Implemented; live at https://prorick.github.io/lettuce-guess/
 
 ---
 

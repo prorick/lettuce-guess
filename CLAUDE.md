@@ -1,6 +1,6 @@
 # CLAUDE.md - Project Guidance
 
-- **Project**: wordle-with-records (repo name; the game's public name is still open: ADR-0003's QST-PUBLIC-NAME)
+- **Project**: Lettuce Guess (repo `prorick/lettuce-guess`, live at https://prorick.github.io/lettuce-guess/; the local folder is still named `wordle-with-records`)
 - **Human**: Prothit
 - **AI**: Tessera 5.5 (Claude Opus 5.5), the coordinator and currently the only seat. The roster lives in `docs/inbox/agent-sessions.json`.
 - **Last Updated**: 2026-11-11
@@ -92,7 +92,7 @@ Before serving any change:
 2. Fix any failures before committing
 3. Never serve changes with a failing gate
 
-**Why**: Right now there is no code, so `just gate` checks only the record: it fails if any template placeholder is unfilled or the crew registry is malformed. Once code lands (stack per ADR-0003), the app's own checks go into the same `gate` recipe: unit tests, type-check, and a production build. The bug class we most expect is in the per-letter scoring. Duplicate letters are the classic case. Guess `ATTIC` against answer `STACK` must color only one `T`. Answer `QUEUE` holds two `U`s and two `E`s. These bugs pass a quick manual playtest and only show up on particular word pairs, which is why they need tests. The build step also catches the GitHub Pages `base` path mistake, where the site deploys but every asset 404s.
+**Why**: `just gate` checks the record (no unfilled template placeholders, a valid crew registry) and the app: `vue-tsc` type-check, the Vitest suite (`src/game/__tests__/`), a production build, and a check that the built page loads its assets under `/lettuce-guess/`. CI (`.github/workflows/deploy.yml`) runs the same app checks before every deploy. The bug class we most expect is in the per-letter scoring. Duplicate letters are the classic case. Guess `ATTIC` against answer `STACK` must color only one `T`. Answer `QUEUE` holds two `U`s and two `E`s. These bugs pass a quick manual playtest and only show up on particular word pairs, which is why they need tests. The build step also catches the GitHub Pages `base` path mistake, where the site deploys but every asset 404s.
 
 **Process**:
 ```bash
@@ -246,13 +246,13 @@ If the script was successfully used, append as comments how, and what the outcom
 ## Project Context
 
 ### What we're building:
-A browser word-guessing game for friends: guess an everyday five-letter English word, with colored feedback on each letter. There is one shared puzzle per day, then random words for fun, under an original name and look. (The founding brief's computer-science answers were dropped for accessibility; see ADR-0001.) It is built with Vue single-file components using scoped CSS and hosted free as a static site on GitHub Pages. This repo holds both the game (`src/`) and the record of why it is built the way it is (`docs/adr/`). It is Prothit's first deliberatively-built project.
+A browser word-guessing game for friends: guess an everyday five-letter English word, with colored feedback on each letter. There is one shared puzzle per day, then random words for fun. It's called **Lettuce Guess**, with a salad palette: lettuce green, yellow squash, crouton tan. (The founding brief's computer-science answers were dropped for accessibility; see ADR-0001.) It is built with Vue single-file components using scoped CSS and hosted free as a static site on GitHub Pages. This repo holds both the game (`src/`) and the record of why it is built the way it is (`docs/adr/`). It is Prothit's first deliberatively-built project.
 
 ### Current focus:
-Before scaffolding, closing the follow-up questions: QST-ANSWER-SOURCE (ADR-0001), QST-RANDOM-UNLOCK (ADR-0002), and QST-GAME-NAME (ADR-0003, which also decides the repo name and URL).
+v1 is live (2026-11-11). Next: Prothit skims the answer list (ADR-0001 action item), decides about the template's citation files (ADR-0003 action item), and plays with friends to find what to change.
 
 ### Key decisions made:
-- Words: five-letter everyday English, no CS terms; answer source still open. See `docs/adr/0001-*.md`
+- Words: five-letter everyday English from SCOWL (2,045 answers, 11,110 valid guesses), no CS terms. See `docs/adr/0001-*.md`
 - Cadence: daily shared puzzle first, then random words for fun. See `docs/adr/0002-*.md`
 - Stack: Vite + Vue 3 + TypeScript + Vitest, deployed to GitHub Pages as a project site next to the existing user site. See `docs/adr/0003-*.md`
 

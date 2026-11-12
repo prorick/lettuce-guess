@@ -9,8 +9,8 @@ adr teaching map: the example is not the teaching — these are the up-links fro
 # Puzzle cadence: daily shared puzzle or unlimited play
 
 - **Date**: 2026-11-11
-- **Iteration**: 3
-- **Status**: Accepted
+- **Iteration**: 4
+- **Status**: Implemented
 - **Deciders**: Prothit (human), Tessera 5.5 (AI)
 
 **TL;DR**: Decide whether everyone gets the same puzzle each day or plays random words on demand. This choice sets the game's state model and how fast the answer list gets used up.
@@ -113,7 +113,7 @@ Whether players get one shared puzzle per day, random puzzles on demand, or both
 
 ## Action Items
 
-- [ ] Put "pick today's answer" behind one function (`answerFor(date)` or `randomAnswer()`) so cadence changes stay local — Owner: Tessera 5.5 (at scaffolding)
+- [x] Put "pick today's answer" behind one function so cadence changes stay local — Owner: Tessera 5.5 (done: `answerForPuzzle()` / `randomAnswer()` in `src/game/daily.ts`, both feeding the same `createRound()` engine)
 
 ---
 
@@ -136,6 +136,12 @@ Whether players get one shared puzzle per day, random puzzles on demand, or both
 - Contributors: Prothit (decision), Tessera 5.5 (Claude Opus 5.5; recording)
 - Changes: Consequences now state the unlock rule and that random games stay out of stats
 - Outcome: Accepted (unchanged)
+
+### Iteration 4 (2026-11-11)
+- Trigger: implementation and first deploy
+- Contributors: Tessera 5.5 (Claude Opus 5.5)
+- Changes: Built as decided. Puzzle #1 is 2026-11-11, counted in local calendar days with a DST-proof day counter, tested across real 23-hour and 25-hour days. Today's guesses are saved and replayed on reload. Stats are recorded once per puzzle, so reloading a finished day can't double-count. A streak shows as 0 once a day has been missed. Random play is offered only from the finished daily's result sheet, avoids today's word, isn't saved, and never calls the stats code. If the page stays open past midnight, it picks up the new puzzle on focus or when the countdown ends. Spoilers: the answers ship in seeded-shuffled order, as the follow-up proposed.
+- Outcome: Accepted → Implemented
 
 ---
 

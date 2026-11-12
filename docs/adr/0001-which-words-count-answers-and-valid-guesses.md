@@ -9,8 +9,8 @@ adr teaching map: the example is not the teaching — these are the up-links fro
 # Which words count: answers and valid guesses
 
 - **Date**: 2026-11-11
-- **Iteration**: 3
-- **Status**: Accepted
+- **Iteration**: 4
+- **Status**: Implemented
 - **Deciders**: Prothit (human), Tessera 5.5 (AI)
 
 **TL;DR**: Settle the word rules before writing code: how long the words are, where answers come from, and what the game accepts as a guess.
@@ -120,8 +120,10 @@ What length are the words, which can be the answer, and what counts as a valid g
 
 ## Action Items
 
-- [ ] Once QST-ANSWER-SOURCE is answered: generate both lists, measure their sizes, and give Prothit the answer list to skim — Owner: Tessera 5.5
-- [ ] Record the word-list source and its license in the repo — Owner: Tessera 5.5
+- [x] Once QST-ANSWER-SOURCE is answered: generate both lists and measure their sizes — Owner: Tessera 5.5 (done 2026-11-11; see Iteration 4)
+- [ ] Skim the 2,045 answers (`src/words/answers.ts`) for words friends wouldn't know or would rather not see. Add any to `scripts/wordlist-blocklist.txt` and re-run `npm run words -- <scowl>/final` — Owner: Prothit (preferably within the first days of launch; see the follow-up below on why sooner is better)
+- [x] Record the word-list source and its license in the repo — Owner: Tessera 5.5 (done: `public/licenses/SCOWL-COPYRIGHT.txt` is served with the site and linked from the How-to-play sheet)
+- [ ] **Concern**: the daily word is `answers[(puzzle − 1) % length]` over a seeded shuffle. Regenerating the list after launch, even to drop one word, reshuffles every future day. That's harmless now and disruptive once friends compare days. If it happens after launch, prefer swapping one word in place over regenerating.
 
 ---
 
@@ -144,6 +146,12 @@ What length are the words, which can be the answer, and what counts as a valid g
 - Contributors: Prothit (decision), Tessera 5.5 (Claude Opus 5.5; recording)
 - Changes: Recorded the SCOWL choice in Decision
 - Outcome: Draft → Accepted
+
+### Iteration 4 (2026-11-11)
+- Trigger: implementation
+- Contributors: Tessera 5.5 (Claude Opus 5.5)
+- Changes: Measured against SCOWL 2020.12.07, the estimates in the QST-ANSWER-SOURCE Recommendation were off in both directions. **Answers**: levels ≤ 35 give 3,462 five-letter words; after removing plurals, -ed forms, and the blocklist, 2,045 remain (estimate ~2,000). **Guesses**: level ≤ 70 gave only 6,480 words, under my 8–10k estimate, so I raised the cut to ≤ 80 (11,110 accepted words, including both American and British spellings). The blocklist has two sections: `[everywhere]` (slurs and vulgar words, rejected even as guesses) and `[answers-only]` (real words that are fine to type but bad as the shared daily answer). Initial contents came from scanning the generated lists. Tests now check that every answer is guessable, there are no duplicates, and no blocklisted word gets through.
+- Outcome: Accepted, implemented in `scripts/build-wordlists.mjs` and `src/words/`
 
 ---
 
