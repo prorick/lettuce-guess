@@ -28,6 +28,7 @@
   --key-ink: #23331a;
   --btn-bg: #3e7d24;
   --btn-ink: #ffffff;
+  --brand: #3e7d24;
   --overlay: rgb(35 51 26 / 0.35);
   --shadow: 0 2px 0 rgb(60 50 30 / 0.12), 0 10px 30px rgb(60 50 30 / 0.1);
 
@@ -36,8 +37,13 @@
   color-scheme: light;
 }
 
+/*
+ * Dark theme (ADR-0004). Two selectors, because CSS can't OR a media query
+ * with an attribute: (a) the device prefers dark AND the player hasn't chosen
+ * light; (b) the player chose dark. ⚠ KEEP THE TWO BLOCKS IDENTICAL.
+ */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme='light']) {
     --bg: #151c12;
     --bg-dot: #1b2417;
     --surface: #1f281b;
@@ -51,10 +57,31 @@
     --key-ink: #eef3e6;
     --btn-bg: #8bcb55;
     --btn-ink: #1e3311;
+    --brand: #8bcb55;
     --overlay: rgb(0 0 0 / 0.55);
     --shadow: 0 2px 0 rgb(0 0 0 / 0.3), 0 10px 30px rgb(0 0 0 / 0.35);
     color-scheme: dark;
   }
+}
+
+:root[data-theme='dark'] {
+  --bg: #151c12;
+  --bg-dot: #1b2417;
+  --surface: #1f281b;
+  --ink: #eef3e6;
+  --ink-soft: #a9b59c;
+  --line: #34412d;
+  --line-strong: #5b6b50;
+  --crouton: #4a4235;
+  --crouton-ink: #eadfc9;
+  --key: #2c3626;
+  --key-ink: #eef3e6;
+  --btn-bg: #8bcb55;
+  --btn-ink: #1e3311;
+  --brand: #8bcb55;
+  --overlay: rgb(0 0 0 / 0.55);
+  --shadow: 0 2px 0 rgb(0 0 0 / 0.3), 0 10px 30px rgb(0 0 0 / 0.35);
+  color-scheme: dark;
 }
 
 *,
@@ -82,7 +109,7 @@ button {
 }
 
 :focus-visible {
-  outline: 3px solid var(--lettuce-deep);
+  outline: 3px solid var(--brand);
   outline-offset: 2px;
 }
 

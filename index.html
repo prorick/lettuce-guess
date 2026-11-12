@@ -7,6 +7,18 @@
     <meta name="description" content="Lettuce Guess — a fresh five-letter word puzzle every day. Guess the word in six tries." />
     <meta name="theme-color" content="#fbf6ea" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#151c12" media="(prefers-color-scheme: dark)" />
+    <script>
+      // Apply a saved light/dark choice BEFORE first paint, so the page never
+      // flashes the other theme (ADR-0004). Key must match src/theme.ts THEME_KEY.
+      try {
+        var t = localStorage.getItem('lettuce-guess:theme:v1')
+        if (t === 'light' || t === 'dark') {
+          document.documentElement.dataset.theme = t
+          var c = t === 'dark' ? '#151c12' : '#fbf6ea'
+          document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.setAttribute('content', c) })
+        }
+      } catch (e) {}
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

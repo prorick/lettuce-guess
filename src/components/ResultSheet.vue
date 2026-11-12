@@ -97,12 +97,7 @@ const countdown = computed(() => {
 .answer strong {
   font-family: var(--font-display);
   letter-spacing: 0.08em;
-  color: var(--lettuce-deep);
-}
-@media (prefers-color-scheme: dark) {
-  .answer strong {
-    color: var(--lettuce);
-  }
+  color: var(--brand);
 }
 .numbers {
   display: grid;

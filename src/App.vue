@@ -12,6 +12,14 @@ import { keyboardStates } from './game/scoring'
 import { recordDailyResult, type Stats } from './game/stats'
 import { hasSeenHelp, loadDaily, loadStats, markHelpSeen, saveDaily, saveStats } from './game/storage'
 import type { Mode } from './game/types'
+import {
+  applyThemeChoice,
+  effectiveTheme,
+  loadThemeChoice,
+  saveThemeChoice,
+  systemPrefersDark,
+  type Theme,
+} from './theme'
 
 // Matches LetterTile's timing: 5 tiles × 260ms stagger + one 520ms flip.
 const REVEAL_MS = 5 * 260 + 520
@@ -128,6 +136,20 @@ function checkNewDay() {
   flash('A fresh puzzle just grew! 🥬', 2200)
 }
 
+// ── Theme (ADR-0004): device decides until the player taps the toggle ─────
+const theme = ref<Theme>(effectiveTheme(loadThemeChoice(), systemPrefersDark()))
+function toggleTheme() {
+  const next: Theme = theme.value === 'dark' ? 'light' : 'dark'
+  saveThemeChoice(next)
+  applyThemeChoice(next)
+  theme.value = next
+}
+const darkQuery = globalThis.matchMedia?.('(prefers-color-scheme: dark)')
+function onSystemTheme(e: MediaQueryListEvent) {
+  // Only matters while the player hasn't chosen; keeps the toggle's icon honest.
+  if (loadThemeChoice() === null) theme.value = e.matches ? 'dark' : 'light'
+}
+
 function closeHelp() {
   showHelp.value = false
   markHelpSeen()
@@ -163,8 +185,10 @@ onMounted(() => {
   window.addEventListener('keydown', onKeydown)
   window.addEventListener('focus', checkNewDay)
   document.addEventListener('visibilitychange', onVisible)
+  darkQuery?.addEventListener('change', onSystemTheme)
 })
 onUnmounted(() => {
+  darkQuery?.removeEventListener('change', onSystemTheme)
   window.removeEventListener('keydown', onKeydown)
   window.removeEventListener('focus', checkNewDay)
   document.removeEventListener('visibilitychange', onVisible)
@@ -173,7 +197,14 @@ onUnmounted(() => {
 
 <template>
   <div class="app">
-    <AppHeader :subtitle="subtitle" :mood="mood" @help="showHelp = true" @stats="showResult = true" />
+    <AppHeader
+      :subtitle="subtitle"
+      :mood="mood"
+      :theme="theme"
+      @help="showHelp = true"
+      @stats="showResult = true"
+      @toggle-theme="toggleTheme"
+    />
 
     <main class="play">
       <GameBoard
