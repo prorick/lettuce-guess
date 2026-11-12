@@ -520,14 +520,19 @@ unanswered:
 # The day-one verification gate (porthole item 16): real checks that exist at
 # birth, plus a marked slot for the project's own gate once it has one.
 [group('status')]
-[doc("Day-one gate: instantiate-check + registry validation (+ your project gate — edit me)")]
+[doc("Verification gate: record checks + Lettuce Guess type-check, unit tests, production build")]
 gate:
     #!/usr/bin/env bash
     set -euo pipefail
     just instantiate-check
     python3 scripts/groups-lookup.py --validate
-    # ADD YOUR PROJECT'S OWN GATE HERE when it exists (test suite, build, linter)
-    echo "✅ gate green (day-one checks; project gate slot above)"
+    # Lettuce Guess app gate (ADR-0003): types, behavior, and a real Pages build
+    [[ -d node_modules ]] || npm ci
+    npm run -s type-check
+    npm test --silent
+    npm run -s build
+    grep -q '/lettuce-guess/assets/' dist/index.html || { echo "❌ built index.html does not load assets under /lettuce-guess/ — GitHub Pages would 404"; exit 1; }
+    echo "✅ gate green (record + type-check + tests + build)"
 
 # Is this instance fully instantiated? Greps for remaining ⟦SIGIL⟧ placeholders
 # (the closed registry: docs/adr/templates/placeholders.yaml) and warns on

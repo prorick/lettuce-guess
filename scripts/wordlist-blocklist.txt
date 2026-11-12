@@ -1,0 +1,68 @@
+# Words filtered out of Lettuce Guess. Read by scripts/build-wordlists.mjs.
+# One word per line; '#' starts a comment. Two sections:
+#   [everywhere]    — never an answer AND rejected as a guess (slurs, vulgarities)
+#   [answers-only]  — real words a player may legitimately type, but which
+#                     would land badly as the shared daily answer for a mixed
+#                     group of friends
+# Seeded by Tessera 5.5 (2026-11-11) from a scan of the generated lists;
+# Prothit skims the answer list and adds anything else (ADR-0001).
+
+[everywhere]
+bitch
+boner
+chink
+cocks
+coons
+dagos
+darky
+dicks
+dildo
+dykes
+fagot
+fucks
+gooks
+gypsy
+homos
+honky
+kikes
+lesbo
+negro
+nigga
+nooky
+penis
+pervs
+porno
+prick
+pussy
+shits
+skank
+slags
+sluts
+spics
+spunk
+squaw
+titty
+twats
+wanks
+whore
+
+[answers-only]
+booby
+booty
+enema
+feces
+harem
+horny
+kinky
+lynch
+paddy
+pansy
+queer
+raped
+rapes
+semen
+sissy
+slave
+sperm
+urine
+vomit

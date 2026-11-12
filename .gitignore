@@ -7,3 +7,13 @@
 # Python temporary files
 __pycache__/
 *.py[cod]
+
+# Node / Vite / Vitest (Lettuce Guess app — ADR-0003)
+node_modules
+dist
+coverage
+*.log
+*.local
+*.tsbuildinfo
+*.timestamp-*-*.mjs
+__screenshots__/

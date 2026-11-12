@@ -1,0 +1,98 @@
+/*
+ * The ONE global stylesheet (ADR-0003, Explicitation item 4): design tokens,
+ * page background, and fonts. Everything component-shaped lives in that
+ * component's <style scoped>.
+ *
+ * Palette (ADR-0003, QST-GAME-NAME — Prothit's call): lettuce green = right
+ * letter, right spot; yellow squash = right letter, wrong spot; crouton tan =
+ * not in the word. Tile ink is dark on all three (contrast ≥ 5:1).
+ */
+:root {
+  --bg: #fbf6ea;
+  --bg-dot: #f1e8d3;
+  --surface: #fffdf7;
+  --ink: #23331a;
+  --ink-soft: #66705c;
+  --line: #e4dac3;
+  --line-strong: #b4a689;
+
+  --lettuce: #8bcb55;
+  --lettuce-ink: #1e3311;
+  --lettuce-deep: #3e7d24;
+  --squash: #f2c14e;
+  --squash-ink: #3d2e05;
+  --crouton: #d9cbb3;
+  --crouton-ink: #5c4e3a;
+
+  --key: #ece3cf;
+  --key-ink: #23331a;
+  --btn-bg: #3e7d24;
+  --btn-ink: #ffffff;
+  --overlay: rgb(35 51 26 / 0.35);
+  --shadow: 0 2px 0 rgb(60 50 30 / 0.12), 0 10px 30px rgb(60 50 30 / 0.1);
+
+  --font-display: 'Fredoka', 'Nunito', system-ui, sans-serif;
+  --font-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #151c12;
+    --bg-dot: #1b2417;
+    --surface: #1f281b;
+    --ink: #eef3e6;
+    --ink-soft: #a9b59c;
+    --line: #34412d;
+    --line-strong: #5b6b50;
+    --crouton: #4a4235;
+    --crouton-ink: #eadfc9;
+    --key: #2c3626;
+    --key-ink: #eef3e6;
+    --btn-bg: #8bcb55;
+    --btn-ink: #1e3311;
+    --overlay: rgb(0 0 0 / 0.55);
+    --shadow: 0 2px 0 rgb(0 0 0 / 0.3), 0 10px 30px rgb(0 0 0 / 0.35);
+    color-scheme: dark;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--bg-dot) 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--lettuce-deep);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
+}
