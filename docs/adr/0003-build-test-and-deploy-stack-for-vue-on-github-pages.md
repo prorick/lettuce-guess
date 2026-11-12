@@ -9,7 +9,7 @@ adr teaching map: the example is not the teaching — these are the up-links fro
 # Build, test, and deploy stack for Vue on GitHub Pages
 
 - **Date**: 2026-11-11
-- **Iteration**: 2
+- **Iteration**: 3
 - **Status**: Accepted
 - **Deciders**: Prothit (human), Tessera 5.5 (AI)
 
@@ -89,6 +89,16 @@ The brief fixes Vue, scoped CSS, and free GitHub Pages. The toolchain around the
 - `just gate` grows: type-check, unit tests, production build.
 - Deploys use the official Pages actions, so this repo needs its Pages source set to "GitHub Actions" (Action Items).
 
+### Chosen (name and look): "Lettuce Guess", repo `lettuce-guess` (Prothit, 2026-11-11)
+
+**Rationale**: The ANS on QST-GAME-NAME was *"Go with A! I love Lettuce Guess! Make the site aesthetic. lettuce green color for correct letter. yellow squash color for correct letter in wrong spot. Should be lettuce-guess."* So the name is **Lettuce Guess**, the repo is renamed `prorick/lettuce-guess`, and the URL is `https://prorick.github.io/lettuce-guess/`, which makes Vite's `base` `/lettuce-guess/`.
+
+**Name check** (promised in the Recommendation, done 2026-11-11 before renaming): a web search found no established game called "Lettuce Guess". GitHub has three empty repos with that name, none with any stars, and `prorick/lettuce-guess` was free.
+
+**Palette**: lettuce green for the right letter in the right spot and yellow squash for the right letter in the wrong spot, as Prothit specified. For a letter not in the word, I'm using a warm crouton tan instead of a neutral gray. The board sits on a cream "salad bowl" background with rounded, leaf-soft tiles. Color is never the only signal: tiles also carry an accessible label and a small corner mark.
+
+**A doubt worth recording** (Secondary Directive): green and yellow are also the original game's feedback colors. Those two colors are a genre convention, not anyone's trademark, and Prothit chose them, so we keep them. The rest of the look (shades, background, tile shape, mascot, type) is deliberately different, so the game reads as Lettuce Guess rather than a reskin.
+
 ---
 
 ## Open Follow-ups
@@ -113,7 +123,7 @@ Let's go with A! Come up with a trendy cute name for our game
 ---
 
 ### QST-GAME-NAME: Which name, and should the GitHub repo be renamed to match?
-- Status: unanswered
+- Status: answered
 - Why asking: QST-PUBLIC-NAME chose an original name and palette and asked me for "a trendy cute name". Here's a shortlist, each with the look it suggests. The repo is currently called `wordle-with-records`, and that name becomes the public URL (`prorick.github.io/wordle-with-records/`). Renaming is cheap now, before GitHub Pages is switched on, and fiddly later. Answers are everyday five-letter English words (ADR-0001), so the name doesn't need to be CS-flavored.
 - Need: pick a letter (or override — any shape answers, including your own name), plus yes/no on renaming the repo to match
 
@@ -127,8 +137,8 @@ Options:
 
 **A — Lettuce, and yes, rename the repo to `lettuce`.** *Rationale*: The pun says what you do in the game, which is guess. It also brings a whole visual identity (the salad palette) that is clearly not the original's look, which was the point of QST-PUBLIC-NAME. It's short and easy to type as a URL. Renaming the repo now, while Pages is still off, means the first public URL is the permanent one (Decision → Consequences: `base` is written once). *Confidence*: 0.6 — because naming is taste and the taste is yours. I also haven't yet checked whether any of these names already belong to a well-known game; I'll check the one you pick before renaming anything. *If wrong*: if a food theme feels off, or the name check turns up a clash → **B**, which is just as cute without committing to a theme. If you want to keep the current URL for now, say "no rename"; nothing in the code depends on it.
 
-**ANS:** (by Prothit)
-[Fill this in]   <!-- literal placeholder — parser-significant, do not paraphrase -->
+**ANS:** (by prorick)
+Go with A! I love Lettuce Guess! Make the site aesthetic. lettuce green color for correct letter. yellow squash color for correct letter in wrong spot. Should be lettuce-guess.
 
 ---
 
@@ -156,6 +166,12 @@ Options:
 - Contributors: Prothit (decisions), Tessera 5.5 (Claude Opus 5.5; Pages investigation, recording, name shortlist)
 - Changes: Recorded A in Decision with the Pages finding (user site at the root, project sites at sub-paths, eight will coexist, no folder clash, so nothing to work around); minted QST-GAME-NAME with four names and the repo-rename question
 - Outcome: Draft → Accepted (the stack is decided; QST-GAME-NAME settles the URL, not the toolchain)
+
+### Iteration 3 (2026-11-11)
+- Trigger: Prothit answered QST-GAME-NAME: Lettuce Guess, `lettuce-guess`, lettuce green and squash yellow
+- Contributors: Prothit (decision), Tessera 5.5 (Claude Opus 5.5; name check, recording)
+- Changes: Recorded the name, repo, URL, and palette in Decision, with the name-check result and the green/yellow doubt
+- Outcome: Accepted (unchanged)
 
 ---
 

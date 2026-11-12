@@ -9,7 +9,7 @@ adr teaching map: the example is not the teaching — these are the up-links fro
 # Puzzle cadence: daily shared puzzle or unlimited play
 
 - **Date**: 2026-11-11
-- **Iteration**: 2
+- **Iteration**: 3
 - **Status**: Accepted
 - **Deciders**: Prothit (human), Tessera 5.5 (AI)
 
@@ -64,7 +64,7 @@ C is best, do daily for the first game. Then allow the user to play another rand
 ---
 
 ### QST-RANDOM-UNLOCK: When does random play open up, and does it count toward stats?
-- Status: unanswered
+- Status: answered
 - Why asking: QST-CADENCE chose both modes: "do daily for the first game. Then allow the user to play another random word for fun." I read that as random play opening *after* today's daily is finished. I want to confirm that before building the end-of-game screen, because it decides whether there's a mode switch on the home screen and whether random games can affect the daily streak.
 - Need: pick a letter (or override — any shape answers); a quick "A" confirms my reading
 
@@ -77,8 +77,8 @@ Options:
 
 **A — After the daily, win or lose; just for fun.** *Rationale*: This is the most literal reading of your answer ("daily for the first game. Then… another random word"). Keeping random games out of stats matches "for fun" and means the daily streak can't be inflated by practice. The UI also stays one screen deep: no toggle until it's needed. *Confidence*: 0.85 — because the reading follows your wording closely, but "first game" could also mean "the default", which would point to B. *If wrong*: if you meant random should be available whenever someone wants it → **B**. If random play should feel earned → **C**.
 
-**ANS:** (by Prothit)
-[Fill this in]   <!-- literal placeholder — parser-significant, do not paraphrase -->
+**ANS:** (by prorick)
+I agree with A!
 
 ---
 
@@ -96,7 +96,8 @@ Whether players get one shared puzzle per day, random puzzles on demand, or both
 
 ### Consequences
 - One game engine, two answer sources: `answerFor(date)` for the daily and `randomAnswer()` for random play.
-- Today's daily is saved in the browser so a refresh doesn't wipe it. Random games are not saved (pending QST-RANDOM-UNLOCK).
+- Today's daily is saved in the browser so a refresh doesn't wipe it. Random games are not saved and never touch stats or streaks (QST-RANDOM-UNLOCK: A, confirmed by Prothit 2026-11-11, *"I agree with A!"*).
+- **Random play unlocks after today's daily is finished, win or lose.** The result screen offers "Play a random word", and each random game ends with "Another one?".
 - Answer-list exhaustion is no longer a concern. ADR-0001's switch to everyday English gives an estimated ~2,000 answers, far more than the ~200 CS terms assumed in Explicitation item 2.
 - **Day boundary — adopting my lean unless Prothit objects**: local midnight, with the puzzle number counting local days since launch.
 
@@ -129,6 +130,12 @@ Whether players get one shared puzzle per day, random puzzles on demand, or both
 - Contributors: Prothit (decision), Tessera 5.5 (Claude Opus 5.5; recording and follow-up)
 - Changes: Recorded C (daily first, then random for fun) in Decision; minted QST-RANDOM-UNLOCK to confirm how I read "first game"; adopted the local-midnight day boundary
 - Outcome: Draft → Accepted (the cadence is decided; QST-RANDOM-UNLOCK refines how it works, not whether)
+
+### Iteration 3 (2026-11-11)
+- Trigger: Prothit answered QST-RANDOM-UNLOCK: A
+- Contributors: Prothit (decision), Tessera 5.5 (Claude Opus 5.5; recording)
+- Changes: Consequences now state the unlock rule and that random games stay out of stats
+- Outcome: Accepted (unchanged)
 
 ---
 

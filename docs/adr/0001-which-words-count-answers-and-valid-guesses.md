@@ -9,8 +9,8 @@ adr teaching map: the example is not the teaching — these are the up-links fro
 # Which words count: answers and valid guesses
 
 - **Date**: 2026-11-11
-- **Iteration**: 2
-- **Status**: Draft
+- **Iteration**: 3
+- **Status**: Accepted
 - **Deciders**: Prothit (human), Tessera 5.5 (AI)
 
 **TL;DR**: Settle the word rules before writing code: how long the words are, where answers come from, and what the game accepts as a guess.
@@ -68,7 +68,7 @@ Options:
 ---
 
 ### QST-ANSWER-SOURCE: Where should the list of everyday five-letter answers come from?
-- Status: unanswered
+- Status: answered
 - Why asking: QST-GUESS-POOL settled that answers are ordinary five-letter English words, so friends without a CS background can play. The game needs two lists. One is a short list of *common* words that can be the answer, so nobody loses to `XYSTI`. The other is a long list of every real five-letter word, so guesses aren't rejected unfairly. Where the answer list comes from decides how much pruning you'll do, what license note the repo carries, and whether the game's content is actually ours.
 - Need: pick a letter (or override — any shape answers)
 
@@ -81,8 +81,8 @@ Options:
 
 **A — Build our own from SCOWL.** *Rationale*: QST-PUBLIC-NAME chose an original identity, and the answer list is the game's main content, so it should be ours too. SCOWL's commonness levels map directly onto the two lists we need. "Common enough to be an answer" becomes a threshold we can tune, not a judgment made 2,000 times. ~2,000 answers also outlasts any realistic run of daily puzzles plus random play (ADR-0002). *Confidence*: 0.8 — because I know SCOWL's design and license terms from its documentation, but I haven't downloaded it yet, and the ~2,000 and 8–10k counts are estimates I'll measure before committing to them. *If wrong*: if the most-common level turns out too small or too stuffy once measured, I widen the threshold and you skim more, still A. If its license terms turn out not to fit a public site → **B**, with a provenance check before adopting any list.
 
-**ANS:** (by Prothit)
-[Fill this in]   <!-- literal placeholder — parser-significant, do not paraphrase -->
+**ANS:** (by prorick)
+Go with A! Love it!
 
 ---
 
@@ -102,6 +102,10 @@ What length are the words, which can be the answer, and what counts as a valid g
 - Two word lists ship in the bundle: common answers and broad valid guesses. Where they come from is QST-ANSWER-SOURCE.
 - The board is fixed at five tiles wide, so there's no variable-length layout.
 - Duplicate-letter scoring is still the first thing the tests pin down (Explicitation item 3).
+
+### Chosen (answer source): A — Build our own from SCOWL (Prothit, 2026-11-11)
+
+**Rationale**: The ANS on QST-ANSWER-SOURCE was *"Go with A! Love it!"*. Answers come from SCOWL's most common levels and guesses from its broad levels. Plurals, proper nouns, and offensive words are filtered out of the answers. A script in the repo regenerates both lists, so the threshold stays tunable and the result reproducible. Measured sizes and the license note are recorded at implementation (Iteration 4).
 
 ---
 
@@ -134,6 +138,12 @@ What length are the words, which can be the answer, and what counts as a valid g
 - Contributors: Prothit (decision), Tessera 5.5 (Claude Opus 5.5; recording and follow-up)
 - Changes: Recorded the override (five-letter everyday English, no CS words) in Decision; marked the CS curation follow-up moot; minted QST-ANSWER-SOURCE, since common-word answers need a source; added a parked note about an optional CS pack
 - Outcome: Draft (stays Draft until QST-ANSWER-SOURCE is answered)
+
+### Iteration 3 (2026-11-11)
+- Trigger: Prothit answered QST-ANSWER-SOURCE: A
+- Contributors: Prothit (decision), Tessera 5.5 (Claude Opus 5.5; recording)
+- Changes: Recorded the SCOWL choice in Decision
+- Outcome: Draft → Accepted
 
 ---
 
