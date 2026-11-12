@@ -3,9 +3,9 @@
 
 # Dark mode toggle: the player's choice overrides the system default
 
-* Status: accepted
-* Deciders: Prothit (request), Tessera 5.5 (Claude Opus 5.5; design)
-* Date: 2026-11-11
+- **Date**: 2026-11-11
+- **Status**: Implemented
+- **Deciders**: Prothit (request), Tessera 5.5 (Claude Opus 5.5; design)
 
 **TL;DR**: Add a 🌙/☀️ button so any player can switch Lettuce Guess to dark or light. Until they choose, it follows their device, and their choice is remembered in their browser.
 
@@ -45,6 +45,10 @@ Chosen option: **"Two-state toggle, defaulting to the device until first use"**.
 ## Open question
 
 NOT: no open questions. Prothit asked for the feature; the shape (toggle vs. cycle) is a reversible UI call, recorded here with its upgrade path.
+
+## Implementation (2026-11-11)
+
+`src/theme.ts` (choice load/save, guarded like the game's storage) is covered by 5 tests in `src/__tests__/theme.test.ts`. The pre-paint script lives in `index.html`, the dark tokens and `--brand` in `src/styles/base.css`, and the moon/sun button in `AppHeader.vue`. On very narrow phones (≤ 360px) the mascot hides so the header still fits its three buttons. Verified in headless Chrome with `scripts/ephemeral/2026-11-11-check-theme-toggle.mjs`: a light-mode device switches to dark with one tap, the choice is applied before Vue mounts on reload (no flash), it switches back, and there's no overflow at 360px.
 
 ## Links
 

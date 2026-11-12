@@ -255,6 +255,7 @@ v1 is live (2026-11-11). Next: Prothit skims the answer list (ADR-0001 action it
 - Words: five-letter everyday English from SCOWL (2,045 answers, 11,110 valid guesses), no CS terms. See `docs/adr/0001-*.md`
 - Cadence: daily shared puzzle first, then random words for fun. See `docs/adr/0002-*.md`
 - Stack: Vite + Vue 3 + TypeScript + Vitest, deployed to GitHub Pages as a project site next to the existing user site. See `docs/adr/0003-*.md`
+- Theme: a 🌙/☀️ toggle; the player's choice overrides the device setting and is remembered per browser. See `docs/adr/0004-*.md`
 
 ### Open questions:
 ```bash
